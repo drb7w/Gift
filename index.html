@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة خاصة جداً ❤️</title>
+    <title>إلى ألطف شخص ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
@@ -11,7 +11,7 @@
             --primary: #ff4b72;
             --secondary: #ff85a2;
             --bg: #0f0c20;
-            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-bg: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -29,7 +29,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 15px 60px 15px;
+            justify-content: space-between;
+            padding: 20px 15px;
             overflow-x: hidden;
             position: relative;
         }
@@ -51,76 +52,69 @@
             100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
         }
 
-        .container {
-            width: 100%;
-            max-width: 450px;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 10px;
-        }
-
-        .title-header {
-            text-align: center;
-            margin-bottom: 5px;
-        }
-
-        .title-header h1 {
-            font-size: 1.8rem;
-            color: #ffb3c6;
-            text-shadow: 0 0 10px rgba(255, 75, 114, 0.5);
-        }
-
-        /* المشغل الصوتي */
-        .audio-card {
-            background: var(--card-bg);
+        /* مشغل الصوت العلوي */
+        .top-audio {
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 15px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 8px 18px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         .audio-icon {
-            font-size: 28px;
-            animation: pulse 1.5s infinite alternate;
+            font-size: 20px;
+            animation: spin 3s linear infinite;
+            animation-play-state: paused;
         }
 
-        @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.15); }
+        .playing .audio-icon {
+            animation-play-state: running;
         }
 
-        audio {
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* الحاوية الرئيسية والصفحات */
+        .main-container {
             width: 100%;
-            height: 40px;
-            border-radius: 20px;
-            outline: none;
+            max-width: 400px;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
         }
 
-        /* الظرف والرسالة المغلقة */
-        .envelope-wrapper {
+        .page {
+            display: none;
+            width: 100%;
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 25px 20px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 30px 20px;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.4s ease forwards;
         }
 
-        .envelope-icon {
-            font-size: 50px;
-            margin-bottom: 10px;
-            transition: transform 0.4s ease;
+        .page.active {
+            display: block;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* الصفحة الأولى: الترحيب والظرف */
+        .envelope-icon { font-size: 65px; margin-bottom: 10px; }
         .secret-message {
             display: none;
             margin-top: 15px;
@@ -130,147 +124,153 @@
             text-shadow: 0 0 15px rgba(255, 42, 95, 0.8);
             animation: popIn 0.5s ease forwards;
         }
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
 
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            80% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* الزر التفاعلي للمشاعر */
-        .quote-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
+        /* الصفحة الثانية: الرسائل العشوائية */
         .btn-action {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            font-weight: 800;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 75, 114, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-bottom: 12px;
-        }
-
-        .btn-action:active {
-            transform: scale(0.95);
-        }
-
-        .quote-text {
-            font-size: 1.1rem;
-            min-height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffe6ec;
-        }
-
-        /* لعبة الأزرار التفاعلية (هل تحبيني؟) */
-        .game-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 25px 20px;
-            text-align: center;
-            position: relative;
-            min-height: 180px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        .game-title {
-            font-size: 1.3rem;
+            color: white; border: none; padding: 12px 25px;
+            font-size: 1rem; font-weight: 800; border-radius: 25px;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(255, 75, 114, 0.4);
             margin-bottom: 20px;
-            color: #ffccd5;
         }
+        .quote-text { font-size: 1.2rem; min-height: 80px; display: flex; align-items: center; justify-content: center; color: #ffe6ec; }
 
-        .btn-group {
+        /* الصفحة الثالثة: اللعبة التفاعلية */
+        .game-title { font-size: 1.4rem; margin-bottom: 30px; color: #ffccd5; }
+        .btn-group { display: flex; justify-content: center; gap: 20px; align-items: center; position: relative; min-height: 80px; }
+        .btn-yes { background: #2ec4b6; color: white; border: none; padding: 12px 35px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; }
+        .btn-no { background: #e63946; color: white; border: none; padding: 12px 35px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; position: absolute; transition: 0.2s ease; }
+
+        /* الصفحة الرابعة: الختام */
+        .final-title { font-size: 1.8rem; color: #ffccd5; margin-bottom: 15px; }
+
+        /* أزرار التنقل السفلية */
+        .nav-controls {
+            z-index: 10;
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+            justify-content: space-between;
         }
 
-        .btn-yes {
-            background: #2ec4b6;
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            border: none;
-            padding: 10px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
+            padding: 10px 20px;
             border-radius: 20px;
+            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(46, 196, 182, 0.4);
+            backdrop-filter: blur(5px);
+            transition: 0.2s;
         }
 
-        .btn-no {
-            background: #e63946;
-            color: white;
-            border: none;
-            padding: 10px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 20px;
-            cursor: pointer;
-            position: absolute;
-            transition: all 0.2s ease;
-        }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
     </style>
 </head>
-<body>
+<body onclick="enableAudio()">
 
-    <div class="container">
+    <!-- عنصر الصوت المباشر -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
+    </audio>
 
-        <!-- العنوان -->
-        <div class="title-header">
-            <h1>إلى ألطف وأجمل شخص ✨</h1>
+    <!-- شريط الصوت العلوي -->
+    <div class="top-audio" id="audioToggle" onclick="toggleAudio(event)">
+        <span class="audio-icon">🎵</span>
+        <span id="audioText" style="font-size: 0.85rem;">الموسيقى: شغال ✨</span>
+    </div>
+
+    <!-- الحاوية الرئيسية للأقسام -->
+    <div class="main-container">
+
+        <!-- الصفحة 1: الرسالة المغلقة -->
+        <div class="page active" id="page1">
+            <h2 style="margin-bottom: 15px; color: #ffb3c6;">الرسالة المفاجئة ✉️</h2>
+            <div onclick="openEnvelope()" style="cursor: pointer;">
+                <div class="envelope-icon" id="envIcon">✉️</div>
+                <p id="envHint" style="color: #bbb; font-size: 0.96rem;">اضغطي على الظرف لفتحه 💌</p>
+                <div class="secret-message" id="secretMsg">احبچ ❤️</div>
+            </div>
         </div>
 
-        <!-- المشغل الصوتي مع رابط الموسيقى المباشر -->
-        <div class="audio-card">
-            <div class="audio-icon">🎵</div>
-            <audio controls id="myAudio">
-                <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
-                متصفحك لا يدعم المشغل الصوتي.
-            </audio>
+        <!-- الصفحة 2: الرسائل العشوائية -->
+        <div class="page" id="page2">
+            <h2 style="margin-bottom: 15px; color: #ffb3c6;">رسائل خاصة لكِ 🌸</h2>
+            <button class="btn-action" onclick="showRandomQuote()">اضغطي لرسالة جديدة 💌</button>
+            <div class="quote-text" id="quoteBox">اضغطي على الزر أعلاه...</div>
         </div>
 
-        <!-- الظرف والرسالة المغلقة -->
-        <div class="envelope-wrapper" onclick="openEnvelope(this)">
-            <div class="envelope-icon" id="envIcon">✉️</div>
-            <p id="envHint" style="color: #bbb; font-size: 0.9rem;">اضغطي على الظرف لفتحه 💌</p>
-            <div class="secret-message" id="secretMsg">احبچ ❤️</div>
-        </div>
-
-        <!-- الزر التفاعلي للرسائل العشوائية -->
-        <div class="quote-card">
-            <button class="btn-action" onclick="showRandomQuote()">اضغطي هنا ورسالة جديدة 💌</button>
-            <div class="quote-text" id="quoteBox">اضغطي على الزر لرؤية الرسالة...</div>
-        </div>
-
-        <!-- الزر التفاعلي الممتع (هل تحبيني؟) -->
-        <div class="game-card" id="gameArea">
+        <!-- الصفحة 3: لعبة الأزرار -->
+        <div class="page" id="page3">
             <div class="game-title">سؤال سريع: تحبيني؟ 🙈</div>
-            <div class="btn-group">
+            <div class="btn-group" id="gameArea">
                 <button class="btn-yes" onclick="answerYes()">نعم أكيد! ❤️</button>
                 <button class="btn-no" id="noBtn" onmouseover="moveNoBtn()" onclick="moveNoBtn()">لا 😜</button>
             </div>
         </div>
 
+        <!-- الصفحة 4: الختام -->
+        <div class="page" id="page4">
+            <div class="final-title">دمتِ لي شيئاً جميلاً لا ينتهي ✨❤️</div>
+            <p style="color: #ddd; line-height: 1.8;">صُنعت هذه الصفحة بكل حب لترسم ابتسامة على وجهكِ اللطيف.</p>
+        </div>
+
+    </div>
+
+    <!-- شريط التنقل بين الصفحات -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>السابق</button>
+        <span id="pageIndicator" style="align-self: center; font-size: 0.9rem; color: #aaa;">1 / 4</span>
+        <button class="nav-btn" id="nextBtn" onclick="changePage(1)">التالي</button>
     </div>
 
     <script>
-        // 1. إنشاء تساقط القلوب في الخلفية
+        // 1. إدارة تشغيل الصوت المباشر
+        const music = document.getElementById('bgMusic');
+        const audioToggle = document.getElementById('audioToggle');
+        const audioText = document.getElementById('audioText');
+        let audioStarted = false;
+
+        function enableAudio() {
+            if (!audioStarted) {
+                music.play().then(() => {
+                    audioStarted = true;
+                    audioToggle.classList.add('playing');
+                }).catch(() => {});
+            }
+        }
+
+        function toggleAudio(e) {
+            e.stopPropagation();
+            if (music.paused) {
+                music.play();
+                audioToggle.classList.add('playing');
+                audioText.innerText = "الموسيقى: شغال ✨";
+            } else {
+                music.pause();
+                audioToggle.classList.remove('playing');
+                audioText.innerText = "الموسيقى: متوقفة 🔇";
+            }
+        }
+
+        // 2. التنقل بين الصفحات (4 صفحات)
+        let currentPage = 1;
+        const totalPages = 4;
+
+        function changePage(step) {
+            document.getElementById(`page${currentPage}`).classList.remove('active');
+            currentPage += step;
+            document.getElementById(`page${currentPage}`).classList.add('active');
+
+            document.getElementById('prevBtn').disabled = (currentPage === 1);
+            document.getElementById('nextBtn').disabled = (currentPage === totalPages);
+            document.getElementById('pageIndicator').innerText = `${currentPage} / ${totalPages}`;
+        }
+
+        // 3. القلوب الساقطة
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart-particle');
@@ -279,22 +279,19 @@
             heart.style.animationDuration = Math.random() * 3 + 3 + 's';
             heart.style.fontSize = Math.random() * 15 + 15 + 'px';
             document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
+            setTimeout(() => heart.remove(), 6000);
         }
         setInterval(createHeart, 300);
 
-        // 2. فتح الظرف والرسالة
-        function openEnvelope(element) {
+        // 4. فتح الظرف
+        function openEnvelope() {
             document.getElementById('envIcon').innerText = '📩';
             document.getElementById('envHint').style.display = 'none';
             document.getElementById('secretMsg').style.display = 'block';
-            confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+            confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
         }
 
-        // 3. الرسائل العشوائية
+        // 5. اقتباسات عشوائية
         const quotes = [
             "وجودج بحياتي يخلي كل يوم أحلى وأجمل ✨",
             "كل لحظة وياج تسوى الدنيا كلها ❤️",
@@ -314,30 +311,16 @@
             }, 200);
         }
 
-        // 4. تحريك زر "لا" للهروب
+        // 6. زر الهروب "لا"
         function moveNoBtn() {
             const noBtn = document.getElementById('noBtn');
-            const gameArea = document.getElementById('gameArea');
-            
-            const areaRect = gameArea.getBoundingClientRect();
-            const btnRect = noBtn.getBoundingClientRect();
-
-            const maxX = areaRect.width - btnRect.width - 20;
-            const maxY = areaRect.height - btnRect.height - 20;
-
-            const randomX = Math.floor(Math.random() * maxX) - (areaRect.width / 2) + 50;
-            const randomY = Math.floor(Math.random() * maxY) - (areaRect.height / 2) + 30;
-
+            const randomX = (Math.random() - 0.5) * 200;
+            const randomY = (Math.random() - 0.5) * 150;
             noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
-        // 5. الضغط على زر "نعم"
         function answerYes() {
-            confetti({
-                particleCount: 150,
-                spread: 100,
-                origin: { y: 0.6 }
-            });
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
             alert('أدري والله! وأنا أحبچ أكثر وأكثر ❤️✨');
         }
     </script>
