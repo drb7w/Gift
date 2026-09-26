@@ -11,7 +11,7 @@
             --primary: #ff4b72;
             --secondary: #ff85a2;
             --bg: #0f0c20;
-            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -55,16 +55,17 @@
         /* مشغل الصوت العلوي */
         .top-audio {
             z-index: 10;
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 30px;
-            padding: 8px 18px;
+            padding: 10px 20px;
             display: flex;
             align-items: center;
             gap: 10px;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            margin-top: 10px;
         }
 
         .audio-icon {
@@ -95,8 +96,8 @@
             display: none;
             width: 100%;
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 25px;
             padding: 30px 20px;
             text-align: center;
@@ -133,8 +134,27 @@
             font-size: 1rem; font-weight: 800; border-radius: 25px;
             cursor: pointer; box-shadow: 0 4px 15px rgba(255, 75, 114, 0.4);
             margin-bottom: 20px;
+            transition: transform 0.2s;
         }
-        .quote-text { font-size: 1.2rem; min-height: 80px; display: flex; align-items: center; justify-content: center; color: #ffe6ec; }
+        .btn-action:active { transform: scale(0.95); }
+        
+        .quote-container {
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .quote-text { 
+            font-size: 1.15rem; 
+            color: #ffe6ec; 
+            line-height: 1.6;
+            transition: opacity 0.3s ease;
+        }
 
         /* الصفحة الثالثة: اللعبة التفاعلية */
         .game-title { font-size: 1.4rem; margin-bottom: 30px; color: #ffccd5; }
@@ -143,7 +163,7 @@
         .btn-no { background: #e63946; color: white; border: none; padding: 12px 35px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; position: absolute; transition: 0.2s ease; }
 
         /* الصفحة الرابعة: الختام */
-        .final-title { font-size: 1.8rem; color: #ffccd5; margin-bottom: 15px; }
+        .final-title { font-size: 1.6rem; color: #ffccd5; margin-bottom: 15px; line-height: 1.5; }
 
         /* أزرار التنقل السفلية */
         .nav-controls {
@@ -153,13 +173,14 @@
             width: 100%;
             max-width: 400px;
             justify-content: space-between;
+            margin-bottom: 10px;
         }
 
         .nav-btn {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             color: white;
-            padding: 10px 20px;
+            padding: 10px 25px;
             border-radius: 20px;
             font-weight: bold;
             cursor: pointer;
@@ -172,9 +193,9 @@
 </head>
 <body onclick="startAudioOnFirstTouch()">
 
-    <!-- رابط أحدث نسخة صوت لأغنية إبراهيم البندكاري (إذا تطلب مني عمري) -->
+    <!-- رابط مباشر لأغنية إبراهيم البندكاري (إذا تطلب مني عمري) -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+        <source src="https://ia801503.us.archive.org/15/items/ibrahim-albandakari-bos/Ibrahim_Albandakari_Bos.mp3" type="audio/mpeg">
     </audio>
 
     <!-- شريط الصوت العلوي -->
@@ -200,7 +221,9 @@
         <div class="page" id="page2">
             <h2 style="margin-bottom: 15px; color: #ffb3c6;">رسائل خاصة لكِ 🌸</h2>
             <button class="btn-action" onclick="showRandomQuote()">اضغطي لرسالة جديدة 💌</button>
-            <div class="quote-text" id="quoteBox">اضغطي على الزر أعلاه...</div>
+            <div class="quote-container">
+                <div class="quote-text" id="quoteBox">اضغطي على الزر أعلاه لقراءة الرسالة...</div>
+            </div>
         </div>
 
         <!-- الصفحة 3: لعبة الأزرار -->
@@ -231,7 +254,7 @@
     </div>
 
     <script>
-        // 1. إدارة الصوت تلقائياً مع لمس الشاشة
+        // 1. إدارة الصوت تلقائياً عند أول كلك/لمسة
         const music = document.getElementById('bgMusic');
         const audioToggle = document.getElementById('audioToggle');
         const audioText = document.getElementById('audioText');
@@ -242,7 +265,7 @@
                 music.play().then(() => {
                     audioStarted = true;
                     audioToggle.classList.add('playing');
-                    audioText.innerText = "تشغيل الأغنية ✨";
+                    audioText.innerText = "إبراهيم البندكاري - تشغيل ✨";
                 }).catch(() => {});
             }
         }
@@ -253,7 +276,7 @@
                 music.play();
                 audioStarted = true;
                 audioToggle.classList.add('playing');
-                audioText.innerText = "تشغيل الأغنية ✨";
+                audioText.innerText = "إبراهيم البندكاري - تشغيل ✨";
             } else {
                 music.pause();
                 audioToggle.classList.remove('playing');
@@ -296,7 +319,7 @@
             confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
         }
 
-        // 5. اقتباسات عشوائية
+        // 5. الرسائل العشوائية
         const quotes = [
             "إذا تطلب مني عمري ما أعز عمري عليك ❤️",
             "روحي راحت من عرفتك لأن صارت روحي بيك ✨",
@@ -309,18 +332,18 @@
         function showRandomQuote() {
             const quoteBox = document.getElementById('quoteBox');
             const randomIndex = Math.floor(Math.random() * quotes.length);
-            quoteBox.style.opacity = 0;
+            quoteBox.style.opacity = '0';
             setTimeout(() => {
                 quoteBox.innerText = quotes[randomIndex];
-                quoteBox.style.opacity = 1;
+                quoteBox.style.opacity = '1';
             }, 200);
         }
 
         // 6. زر "لا" للهروب
         function moveNoBtn() {
             const noBtn = document.getElementById('noBtn');
-            const randomX = (Math.random() - 0.5) * 200;
-            const randomY = (Math.random() - 0.5) * 150;
+            const randomX = (Math.random() - 0.5) * 180;
+            const randomY = (Math.random() - 0.5) * 120;
             noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
