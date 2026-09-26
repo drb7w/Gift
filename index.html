@@ -172,7 +172,7 @@
 </head>
 <body onclick="startAudioOnFirstTouch()">
 
-    <!-- رابط موسيقى مباشر ومضمون التوصيل -->
+    <!-- رابط أحدث نسخة صوت لأغنية إبراهيم البندكاري (إذا تطلب مني عمري) -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
@@ -180,13 +180,13 @@
     <!-- شريط الصوت العلوي -->
     <div class="top-audio" id="audioToggle" onclick="toggleAudio(event)">
         <span class="audio-icon">🎵</span>
-        <span id="audioText" style="font-size: 0.85rem;">تشغيل الموسيقى ✨</span>
+        <span id="audioText" style="font-size: 0.85rem;">إبراهيم البندكاري - إذا تطلب مني عمري ✨</span>
     </div>
 
     <!-- الحاوية الرئيسية للأقسام -->
     <div class="main-container">
 
-        <!-- الصفحة 1: الرسالة المغلقة -->
+        <!-- الصفحة 1: الرسالة المفاجئة -->
         <div class="page active" id="page1">
             <h2 style="margin-bottom: 15px; color: #ffb3c6;">الرسالة المفاجئة ✉️</h2>
             <div onclick="openEnvelope()" style="cursor: pointer;">
@@ -212,9 +212,9 @@
             </div>
         </div>
 
-        <!-- الصفحة 4: الختام التوقيع المخصص -->
+        <!-- الصفحة 4: الختام -->
         <div class="page" id="page4">
-            <div class="final-title">دمتِ لي شيئاً جميلاً لا ينتهي ✨❤️</div>
+            <div class="final-title">إذا تطلب مني عمري ما أعز عمري عليك ✨❤️</div>
             <p style="color: #ddd; line-height: 1.8; margin-bottom: 15px;">صُنعت هذه الصفحة بكل حب لترسم ابتسامة على وجهكِ اللطيف.</p>
             <p style="color: #ff85a2; font-weight: bold; font-size: 1.1rem; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 12px;">
                 من الشخص النادر والأجمل علي 👑
@@ -242,7 +242,7 @@
                 music.play().then(() => {
                     audioStarted = true;
                     audioToggle.classList.add('playing');
-                    audioText.innerText = "الموسيقى: شغال ✨";
+                    audioText.innerText = "تشغيل الأغنية ✨";
                 }).catch(() => {});
             }
         }
@@ -253,11 +253,11 @@
                 music.play();
                 audioStarted = true;
                 audioToggle.classList.add('playing');
-                audioText.innerText = "الموسيقى: شغال ✨";
+                audioText.innerText = "تشغيل الأغنية ✨";
             } else {
                 music.pause();
                 audioToggle.classList.remove('playing');
-                audioText.innerText = "الموسيقى: متوقفة 🔇";
+                audioText.innerText = "الأغنية متوقفة 🔇";
             }
         }
 
@@ -298,12 +298,12 @@
 
         // 5. اقتباسات عشوائية
         const quotes = [
-            "وجودج بحياتي يخلي كل يوم أحلى وأجمل ✨",
-            "كل لحظة وياج تسوى الدنيا كلها ❤️",
+            "إذا تطلب مني عمري ما أعز عمري عليك ❤️",
+            "روحي راحت من عرفتك لأن صارت روحي بيك ✨",
+            "وجودج بحياتي يخلي كل يوم أحلى وأجمل 🥰",
             "أنتِ مو بس شخص عزيز، أنتِ كل أشيائي الحلوة 🌸",
             "ابتسامتج تنور يومي كله 💖",
-            "شكراً لأنكِ موجودة بحياتي وبس 👑",
-            "كل الأوقات تكون أحلى لما تكونين وياي 🥰"
+            "كل الأوقات تكون أحلى لما تكونين وياي 👑"
         ];
 
         function showRandomQuote() {
