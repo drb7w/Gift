@@ -55,7 +55,7 @@
         /* مشغل الصوت العلوي */
         .top-audio {
             z-index: 10;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 30px;
@@ -170,17 +170,17 @@
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
     </style>
 </head>
-<body onclick="enableAudio()">
+<body onclick="startAudioOnFirstTouch()">
 
-    <!-- عنصر الصوت المباشر -->
+    <!-- رابط موسيقى مباشر ومضمون التوصيل -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
 
     <!-- شريط الصوت العلوي -->
     <div class="top-audio" id="audioToggle" onclick="toggleAudio(event)">
         <span class="audio-icon">🎵</span>
-        <span id="audioText" style="font-size: 0.85rem;">الموسيقى: شغال ✨</span>
+        <span id="audioText" style="font-size: 0.85rem;">تشغيل الموسيقى ✨</span>
     </div>
 
     <!-- الحاوية الرئيسية للأقسام -->
@@ -212,10 +212,13 @@
             </div>
         </div>
 
-        <!-- الصفحة 4: الختام -->
+        <!-- الصفحة 4: الختام التوقيع المخصص -->
         <div class="page" id="page4">
             <div class="final-title">دمتِ لي شيئاً جميلاً لا ينتهي ✨❤️</div>
-            <p style="color: #ddd; line-height: 1.8;">صُنعت هذه الصفحة بكل حب لترسم ابتسامة على وجهكِ اللطيف.</p>
+            <p style="color: #ddd; line-height: 1.8; margin-bottom: 15px;">صُنعت هذه الصفحة بكل حب لترسم ابتسامة على وجهكِ اللطيف.</p>
+            <p style="color: #ff85a2; font-weight: bold; font-size: 1.1rem; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 12px;">
+                من الشخص النادر والأجمل علي 👑
+            </p>
         </div>
 
     </div>
@@ -228,17 +231,18 @@
     </div>
 
     <script>
-        // 1. إدارة تشغيل الصوت المباشر
+        // 1. إدارة الصوت تلقائياً مع لمس الشاشة
         const music = document.getElementById('bgMusic');
         const audioToggle = document.getElementById('audioToggle');
         const audioText = document.getElementById('audioText');
         let audioStarted = false;
 
-        function enableAudio() {
+        function startAudioOnFirstTouch() {
             if (!audioStarted) {
                 music.play().then(() => {
                     audioStarted = true;
                     audioToggle.classList.add('playing');
+                    audioText.innerText = "الموسيقى: شغال ✨";
                 }).catch(() => {});
             }
         }
@@ -247,6 +251,7 @@
             e.stopPropagation();
             if (music.paused) {
                 music.play();
+                audioStarted = true;
                 audioToggle.classList.add('playing');
                 audioText.innerText = "الموسيقى: شغال ✨";
             } else {
@@ -256,7 +261,7 @@
             }
         }
 
-        // 2. التنقل بين الصفحات (4 صفحات)
+        // 2. التنقل بين الصفحات
         let currentPage = 1;
         const totalPages = 4;
 
@@ -270,7 +275,7 @@
             document.getElementById('pageIndicator').innerText = `${currentPage} / ${totalPages}`;
         }
 
-        // 3. القلوب الساقطة
+        // 3. تساقط القلوب
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart-particle');
@@ -311,7 +316,7 @@
             }, 200);
         }
 
-        // 6. زر الهروب "لا"
+        // 6. زر "لا" للهروب
         function moveNoBtn() {
             const noBtn = document.getElementById('noBtn');
             const randomX = (Math.random() - 0.5) * 200;
